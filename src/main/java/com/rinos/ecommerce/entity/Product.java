@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 
+import java.util.List;
+
 @Entity
 @Table(name = "products")
 public class Product {
@@ -32,6 +34,14 @@ public class Product {
     private Integer stock = 0;
 
     private Integer nomOfReviews = 0;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)  // for make a relationship, if any changes happen in the products it reflects in the child table also
+    @JoinColumn(name = "product_id")    // to set foreign key name
+    private List<ProductImage> images;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "product_id")
+    private List<ProductReview> reviews;
 
     public Product() {}
 
