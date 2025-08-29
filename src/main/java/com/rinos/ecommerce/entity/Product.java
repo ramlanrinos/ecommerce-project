@@ -10,7 +10,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(nullable = false)   // we should have name field for a product
     @NotBlank(message = "Name field is required")   // to show error if we don't give a name
