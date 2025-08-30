@@ -40,7 +40,8 @@ public class ProductService {
 
     public List<Product> searchProducts(String category, Double minPrice, Double maxPrice, String keyword) {
         Specification<Product> spec = Specification.where(ProductSpecification.hasCategory(category))
-                .and(ProductSpecification.priceBetween(minPrice, maxPrice));
+                .and(ProductSpecification.priceBetween(minPrice, maxPrice))
+                .and(ProductSpecification.hasNameOrDescriptionLike(keyword));
         return productRepository.findAll(spec);
     }
 }

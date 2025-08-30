@@ -26,4 +26,16 @@ public class ProductSpecification {
             return cb.between(root.get("price"), min, max);
         };
     }
+
+    public static Specification<Product> hasNameOrDescriptionLike(String keyword) {
+        return (root, query, cb) -> {
+            if (keyword == null || keyword.isEmpty()) return null;
+            // cb.or(...): Combines conditions so a product matches if any of them are true.
+            // cb.like(...): Creates a pattern-matching condition for a database field.
+            return cb.or(
+                    cb.like(root.get("name"), "%" + keyword.toLowerCase() + "%"),
+                    cb.like(root.get("description"), "%" + keyword.toLowerCase() + "%")
+            );
+        };
+    }
 }
