@@ -2,6 +2,7 @@ package com.rinos.ecommerce.spec;
 
 import com.rinos.ecommerce.entity.Product;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.parameters.P;
 
 public class ProductSpecification {
 
@@ -36,6 +37,13 @@ public class ProductSpecification {
                     cb.like(root.get("name"), "%" + keyword.toLowerCase() + "%"),
                     cb.like(root.get("description"), "%" + keyword.toLowerCase() + "%")
             );
+        };
+    }
+
+    public static Specification<Product> ratingGreaterThan(Double rating) {
+        return (root, query, cb) -> {
+            if (rating == null) return null;
+            return cb.greaterThanOrEqualTo(root.get("rating"), rating);
         };
     }
 }
