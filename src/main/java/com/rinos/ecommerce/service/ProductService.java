@@ -1,7 +1,10 @@
 package com.rinos.ecommerce.service;
 
+import com.rinos.ecommerce.dto.ProductReviewDto;
 import com.rinos.ecommerce.entity.Product;
+import com.rinos.ecommerce.entity.ProductReview;
 import com.rinos.ecommerce.repository.ProductRepository;
+import com.rinos.ecommerce.repository.ProductReviewRepository;
 import com.rinos.ecommerce.spec.ProductSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,6 +22,9 @@ import java.util.Optional;
 public class ProductService {
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private ProductReviewRepository productReviewRepository;
 
     public Map<String, Object> getAllProducts(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
@@ -44,5 +50,19 @@ public class ProductService {
                 .and(ProductSpecification.hasNameOrDescriptionLike(keyword))
                 .and(ProductSpecification.ratingGreaterThan(rating));
         return productRepository.findAll(spec);
+    }
+
+    public void addReview(ProductReviewDto reviewDto) {
+        // first check the given id exists or not
+        Product product = productRepository.findById(reviewDto.getProductId())
+                .orElseThrow(() -> new RuntimeException("Product not found with the id: " + reviewDto.getProductId()));
+        // make data for new review
+        ProductReview review = new ProductReview();
+        review.setComment(reviewDto.getComment());
+        review.setRating(reviewDto.getRating());
+        // mapping productId to review
+        review.setProduct(product);
+        // save the new review in the review entity
+        productReviewRepository.save(review);
     }
 }
