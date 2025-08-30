@@ -1,0 +1,20 @@
+package com.rinos.ecommerce.spec;
+
+import com.rinos.ecommerce.entity.Product;
+import org.springframework.data.jpa.domain.Specification;
+
+public class ProductSpecification {
+
+//    This method is a building block for a search/filter feature. Imagine a product list page with a "Filter by
+//    Category" dropdown. When a user selects a category like "Electronics", this method helps build the query
+//    WHERE category = 'Electronics'.
+    public static Specification<Product> hasCategory(String category) {
+//        root: Represents the Product entity itself. You use it to access its fields (like category).
+//        cb (CriteriaBuilder): A toolkit for building conditions (like =, >, LIKE).
+//        query: The blueprint for the overall SELECT statement. Used to modify the query's structure: distinct, groupBy, multiselect.
+        return (root, query, cb) -> category == null ? null : cb.equal(root.get("category"), category);
+//        IF the provided category is null (meaning the user didn't select any filter),
+//        THEN return null (which means "apply no filtering rule").
+//        OTHERWISE, create a rule using cb.equal that checks if the product's category field equals the provided category string.
+    }
+}
