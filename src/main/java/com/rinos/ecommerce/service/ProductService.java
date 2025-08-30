@@ -2,10 +2,12 @@ package com.rinos.ecommerce.service;
 
 import com.rinos.ecommerce.entity.Product;
 import com.rinos.ecommerce.repository.ProductRepository;
+import com.rinos.ecommerce.spec.ProductSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -34,5 +36,10 @@ public class ProductService {
 
     public Product getProductById(Long id) {
         return productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found with the id: " + id));
+    }
+
+    public List<Product> searchProducts(String category, Double minPrice, Double maxPrice, String keyword) {
+        Specification<Product> spec = Specification.where(ProductSpecification.hasCategory(category));
+        return productRepository.findAll(spec);
     }
 }
