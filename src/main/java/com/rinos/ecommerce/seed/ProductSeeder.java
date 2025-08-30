@@ -15,6 +15,11 @@ public class ProductSeeder implements CommandLineRunner {
     @Autowired
     private ProductRepository productRepository;
 
+//    It runs when the app starts up
+//    It checks if there are any products in the database
+//    If the database is empty, it creates 11 demo products (like iPhones, laptops, headphones)
+//    If products already exist, it does nothing
+//    It prints a message saying whether it added products or skipped
     @Override
     public void run(String... args) throws Exception {
         if (productRepository.count() == 0) {
