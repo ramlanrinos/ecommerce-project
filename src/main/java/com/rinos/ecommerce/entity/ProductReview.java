@@ -1,9 +1,6 @@
 package com.rinos.ecommerce.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 
@@ -15,13 +12,17 @@ public class ProductReview {
 
     @Min(value = 1) // to set min value
     @Max(value = 5) // to set max value
-    private Integer rating;
+    private Double rating;
 
     private String comment;
 
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
+
     public ProductReview() {}
 
-    public ProductReview(Long id, Integer rating, String comment) {
+    public ProductReview(Long id, Double rating, String comment) {
         this.id = id;
         this.rating = rating;
         this.comment = comment;
@@ -35,11 +36,11 @@ public class ProductReview {
         this.id = id;
     }
 
-    public @Min(value = 1) @Max(value = 5) Integer getRating() {
+    public @Min(value = 1) @Max(value = 5) Double getRating() {
         return rating;
     }
 
-    public void setRating(@Min(value = 1) @Max(value = 5) Integer rating) {
+    public void setRating(@Min(value = 1) @Max(value = 5) Double rating) {
         this.rating = rating;
     }
 
@@ -49,5 +50,13 @@ public class ProductReview {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }
