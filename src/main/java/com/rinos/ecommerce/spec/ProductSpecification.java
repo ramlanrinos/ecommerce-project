@@ -17,4 +17,13 @@ public class ProductSpecification {
 //        THEN return null (which means "apply no filtering rule").
 //        OTHERWISE, create a rule using cb.equal that checks if the product's category field equals the provided category string.
     }
+
+    public static Specification<Product> priceBetween(Double min, Double max) {
+        return (root, query, cb) -> {
+            if (min == null && max == null) return null;
+            if (min == null && max != null) return cb.lessThanOrEqualTo(root.get("price"), max);
+            if (min != null && max == null) return cb.greaterThanOrEqualTo(root.get("price"), min);
+            return cb.between(root.get("price"), min, max);
+        };
+    }
 }
