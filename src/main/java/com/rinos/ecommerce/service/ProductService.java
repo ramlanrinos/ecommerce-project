@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -29,5 +30,9 @@ public class ProductService {
         response.put("hasPrevious", products.hasPrevious()); // true/false if there's a previous page
         response.put("products", products.getContent());    // return no. of products within a page
         return response;
+    }
+
+    public Product getProductById(Long id) {
+        return productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found with the id: " + id));
     }
 }
