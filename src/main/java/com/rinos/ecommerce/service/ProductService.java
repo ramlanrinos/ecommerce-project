@@ -1,6 +1,7 @@
 package com.rinos.ecommerce.service;
 
 import com.rinos.ecommerce.dto.ProductDto;
+import com.rinos.ecommerce.dto.ProductImageDto;
 import com.rinos.ecommerce.dto.ProductReviewDto;
 import com.rinos.ecommerce.entity.Product;
 import com.rinos.ecommerce.entity.ProductReview;
@@ -65,7 +66,14 @@ public class ProductService {
             return productReviewDto;
         }).collect(Collectors.toList());
 
+        List<ProductImageDto> imageDtos = product.getImages().stream().map(image -> {
+            ProductImageDto productImageDto = new ProductImageDto();
+            productImageDto.setUrl(image.getUrl());
+            return productImageDto;
+        }).collect(Collectors.toList());
+
         productDto.setReviews(reviewDtos);
+        productDto.setImages(imageDtos);
         return productDto;
     }
 

@@ -152,4 +152,12 @@ public class Product {
     public void setReviews(List<ProductReview> reviews) {
         this.reviews = reviews;
     }
+
+    public List<ProductImage> getImages() {
+        return images;
+    }
+
+    public void setImages(List<ProductImage> images) {
+        this.images = images;
+    }
 }

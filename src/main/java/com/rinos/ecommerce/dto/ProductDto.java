@@ -19,7 +19,7 @@ public class ProductDto {
     private String seller;
     private Integer stock = 0;
     private Integer nomOfReviews = 0;
-    private List<ProductImage> images;
+    private List<ProductImageDto> images;
     private List<ProductReviewDto> reviews;
 
     public ProductDto() {
@@ -115,5 +115,13 @@ public class ProductDto {
 
     public void setReviews(List<ProductReviewDto> reviews) {
         this.reviews = reviews;
+    }
+
+    public List<ProductImageDto> getImages() {
+        return images;
+    }
+
+    public void setImages(List<ProductImageDto> images) {
+        this.images = images;
     }
 }
