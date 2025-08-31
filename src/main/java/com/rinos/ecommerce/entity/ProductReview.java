@@ -19,7 +19,7 @@ public class ProductReview {
 
     @ManyToOne
     @JoinColumn(name = "product_id")
-    @JsonIgnore // it prevents take the product data in the response time
+    // @JsonIgnore // it prevents take the product data in the response time
     private Product product;
 
     public ProductReview() {}

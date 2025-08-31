@@ -1,5 +1,6 @@
 package com.rinos.ecommerce.service;
 
+import com.rinos.ecommerce.dto.ProductDto;
 import com.rinos.ecommerce.dto.ProductReviewDto;
 import com.rinos.ecommerce.entity.Product;
 import com.rinos.ecommerce.entity.ProductReview;
@@ -17,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -30,14 +32,41 @@ public class ProductService {
         Pageable pageable = PageRequest.of(page, size);
 //        This Page object is powerful because it contains the requested data plus information about the entire dataset.
         Page<Product> products = productRepository.findAll(pageable);   // it will return Page type, generics is Product
+//        Take a list of Product objects, transform each one into a ProductDto object,
+//        and gather all the transformed results into a new list.
+        List<ProductDto> productDtos = products.stream().map(this::covertToDto).collect(Collectors.toList());
         Map<String, Object> response = new HashMap<>();
         response.put("totalProducts", products.getTotalElements()); // return no. of all products, this is for frontend work
         response.put("currentPage", products.getNumber()); // The current page number
         response.put("totalPages", products.getTotalPages()); // The total number of pages
         response.put("hasNext", products.hasNext()); // true/false if there's a next page
         response.put("hasPrevious", products.hasPrevious()); // true/false if there's a previous page
-        response.put("products", products.getContent());    // return no. of products within a page
+        response.put("products", productDtos);    // return no. of products within a page
         return response;
+    }
+
+    public ProductDto covertToDto(Product product) {
+        ProductDto productDto = new ProductDto();
+        productDto.setId(product.getId());
+        productDto.setName(product.getName());
+        productDto.setDescription(product.getDescription());
+        productDto.setRating(product.getRating());
+        productDto.setCategory(product.getCategory());
+        productDto.setSeller(product.getSeller());
+        productDto.setStock(product.getStock());
+        productDto.setPrice(product.getPrice());
+        productDto.setNomOfReviews(product.getNomOfReviews());
+
+        List<ProductReviewDto> reviewDtos = product.getReviews().stream().map(review -> {
+            ProductReviewDto productReviewDto = new ProductReviewDto();
+            productReviewDto.setProductId(review.getId());
+            productReviewDto.setComment(review.getComment());
+            productReviewDto.setRating(review.getRating());
+            return productReviewDto;
+        }).collect(Collectors.toList());
+
+        productDto.setReviews(reviewDtos);
+        return productDto;
     }
 
     public Product getProductById(Long id) {
