@@ -1,9 +1,6 @@
 package com.rinos.ecommerce.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class ProductImage {
@@ -14,12 +11,22 @@ public class ProductImage {
     private String publicId;
     private String url;
 
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
+
     public ProductImage() {}
 
     public ProductImage(Long id, String publicId, String url) {
         this.id = id;
         this.publicId = publicId;
         this.url = url;
+    }
+
+    public ProductImage(String url, Product product) {
+        this.url = "/uploads" + url;
+        this.publicId = url;
+        this.product = product;
     }
 
     public Long getId() {
