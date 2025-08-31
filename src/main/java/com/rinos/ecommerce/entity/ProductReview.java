@@ -1,5 +1,6 @@
 package com.rinos.ecommerce.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -18,6 +19,7 @@ public class ProductReview {
 
     @ManyToOne
     @JoinColumn(name = "product_id")
+    @JsonIgnore // it prevents take the product data in the response time
     private Product product;
 
     public ProductReview() {}

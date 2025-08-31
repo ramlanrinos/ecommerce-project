@@ -140,4 +140,12 @@ public class Product {
     public void setNomOfReviews(Integer nomOfReviews) {
         this.nomOfReviews = nomOfReviews;
     }
+
+    public List<ProductReview> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<ProductReview> reviews) {
+        this.reviews = reviews;
+    }
 }
