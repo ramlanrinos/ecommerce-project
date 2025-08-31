@@ -1,8 +1,14 @@
 package com.rinos.ecommerce.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class ProductReviewDto {
+    @NotNull(message = "Product id is required")
     private Long productId;
+    @NotBlank
     private String comment;
+    @NotNull(message = "Rating is required")
     private Double rating;
 
     public ProductReviewDto() {
