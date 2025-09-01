@@ -1,6 +1,7 @@
 package com.rinos.ecommerce.service;
 
 import com.rinos.ecommerce.dto.CreateOrderRequest;
+import com.rinos.ecommerce.dto.OrderCreated;
 import com.rinos.ecommerce.dto.OrderItemDto;
 import com.rinos.ecommerce.entity.Order;
 import com.rinos.ecommerce.entity.OrderItem;
@@ -20,7 +21,7 @@ public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
-    public Order createOrder(CreateOrderRequest orderRequest) {
+    public OrderCreated createOrder(CreateOrderRequest orderRequest) {
         Order order = new Order();
         order.setStatus("PENDING");
         double totalItemsAmount = 0.0;
@@ -46,9 +47,13 @@ public class OrderService {
         totalAmount = totalItemsAmount + taxAmount;
         order.setTotalAmount(totalAmount);
         order.setTaxAmount(taxAmount);
-        order.setReferenceId(UUID.randomUUID().toString());
 
-        return orderRepository.save(order);
+        String refId = UUID.randomUUID().toString();
+        order.setReferenceId(refId);
+
+        orderRepository.save(order);
+
+        return new OrderCreated(refId);
     }
 
     public Order getOrder(String referenceId) {
