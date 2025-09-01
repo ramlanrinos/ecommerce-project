@@ -50,4 +50,9 @@ public class OrderService {
 
         return orderRepository.save(order);
     }
+
+    public Order getOrder(String referenceId) {
+        return orderRepository.findByReferenceId(referenceId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+    }
 }
