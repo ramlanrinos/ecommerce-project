@@ -2,6 +2,7 @@ package com.rinos.ecommerce.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,24 +14,24 @@ public class Order {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "order_id")
-    private List<OrderItem> orderItems;
+    private List<OrderItem> orderItems = new ArrayList<OrderItem>();
 
     private Double totalItemsAmount;
     private Double taxAmount;
     private Double totalAmount;
     private String status;
-    private String orderNo;
+    private String referenceId;
 
     public Order() {
     }
 
-    public Order(List<OrderItem> orderItems, Double totalItemsAmount, Double taxAmount, Double totalAmount, String status, String orderNo) {
+    public Order(List<OrderItem> orderItems, Double totalItemsAmount, Double taxAmount, Double totalAmount, String status, String referenceId) {
         this.orderItems = orderItems;
         this.totalItemsAmount = totalItemsAmount;
         this.taxAmount = taxAmount;
         this.totalAmount = totalAmount;
         this.status = status;
-        this.orderNo = orderNo;
+        this.referenceId = referenceId;
     }
 
     public List<OrderItem> getOrderItems() {
@@ -73,11 +74,11 @@ public class Order {
         this.status = status;
     }
 
-    public String getOrderNo() {
-        return orderNo;
+    public String getReferenceId() {
+        return referenceId;
     }
 
-    public void setOrderNo(String orderNo) {
-        this.orderNo = orderNo;
+    public void setReferenceId(String orderNo) {
+        this.referenceId = orderNo;
     }
 }
